@@ -1,0 +1,29 @@
+LaTeX推荐设置
+环境：Windows + Tex Live + CTex 或者 MacOS + MacTex + CTex
+编辑器：TexStudio(Windows)、TexShop(MacOS)
+
+各软件地址
+Tex Live:http://mirrors.huaweicloud.com/repository/toolkit/CTAN/systems/texlive/Images/
+MacTex:https://www.tug.org/mactex/mactex-download.html
+CTex:https://mirrors.tuna.tsinghua.edu.cn/ctex/legacy/2.9/
+TexStudio:http://texstudio.sourceforge.net/
+
+说明：压缩包中的LNCS已经添加的CTex,部署好环境后使用XeLaTeX直接编译即可。
+
+LaTeX支持中文方法
+1、使用TexLive 套装
+2、\documentclass 随便指定何种
+3、使用ctex宏包  \usepackage[UTF8]{ctex}
+4、编写源文件（必须以UTF8格式保存）
+5、使用 XeLaTeX编译（直接支持UTF8）需要自定义字体的话，可以使用 fontspec 宏包
+
+作者：知乎用户
+链接：https://www.zhihu.com/question/20529482/answer/33657109
+来源：知乎
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+
+
+
+
+
