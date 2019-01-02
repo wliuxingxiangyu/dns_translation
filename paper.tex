@@ -33,13 +33,13 @@
 \par\setlength\parindent{2em} mail.example.com. \qquad 3600 \qquad IN \qquad A \qquad 10.10.100.102
 
 %------------DNS Security :page25 start-------------------
-\par\noindent\rule[0.25\baselineskip]{\textwidth}{1pt} %分割线rule
+\par\noindent\rule[0.25\baselineskip]{\textwidth}{1pt} %分割线rule中间有文字 ---start---
 
 \begin{adjustwidth}{2em}{2em}
 \qquad 这就是尾随点的突出重要性的地方。 如果域之后没有尾随点，则DNS软件通常会将其解释为指示主机名，并且软件将在域上添加。 在上面的示例中，如果mail.example.com之后没有尾随点，则软件会认为这条RR是mail.example.com.example.com。
 \end{adjustwidth}
 
-\par\noindent\rule[0.25\baselineskip]{\textwidth}{1pt} %分割线rule
+\par\noindent\rule[0.25\baselineskip]{\textwidth}{1pt} %分割线rule---end---
 
 \par\setlength\parindent{2em} Name字段是主机名还是IP地址取决于这条记录；该字段是代表这个特定RR的对象。 TTL字段仅在当前TTL与特定RR所需的SLA中定义的TTL不同的时候才使用。 如果不指定TTL使用默认域的TTL。 Class字段的值始终为“IN（Internet）”，这是DNS目前唯一支持的类别。 Type字段定义了RR的目的，在上面的例子中，“A”记录是一个地址记录，其他Type字段将在下面讨论。Data字段取决于RR的类型; Data字段的值是DNS分享有关该特定RR的信息。
 
@@ -57,7 +57,7 @@
 
 \par\setlength\parindent{2em}还有专门为IPv6地址设计的A记录。此记录称为AAAA记录，其格式与A记录相同，但其具有IPv6地址：
 
-\par\setlength\parindent{2em}ipv6.example.com. \qquad 3600 \qquad IN \qquad AAAA \qquad 2001:468:504:1:210:5aff:fe1a:11e
+\par\setlength\parindent{2em}ipv6.example.com. \quad 3600 \quad IN \quad AAAA \quad 2001:468:504:1:210:5aff:fe1a:11e
 
 \vbox{}
 
@@ -66,5 +66,51 @@
 \par\noindent 规范名称记录（Canonical Name，以下简称“CNAME”）是将一个FQDN映射到另一个FQDN的别名。 它不是直接将FQDN映射到IP地址，而是更容易映射到另一个host主机。如果有许多FQDN指向相同的IP地址，当对主地址进行更改时，其他地址会自动更新，这一点尤其有用。 CNAME看起来与此类似：
 
 %------------DNS Security :page26 start-------------------
+\par\setlength\parindent{2em}www.example.com. \qquad 3600 \qquad IN \qquad CNAME \qquad mail.example.com.
+
+\par\setlength\parindent{2em}mail.example.com. \qquad 3600 \qquad IN \qquad A \qquad 10.10.100.102
+
+\par\setlength\parindent{2em}为了使CNAME工作，它必须指向具有有效A记录的FQDN。 CNAME不必指向同一域文件中的FQDN；它可以指向其他FQDN：
+
+\par\setlength\parindent{2em}www.example.com \qquad 3600 \qquad IN \qquad CNAME \qquad www.foo.com.
+
+\par\setlength\parindent{2em}同样，www.foo.com必须有一个有效的A记录才能使用这个CNAME。关于CNAME记录的另一个重要的事情是它们不能被其他RR使用。 MX和NS记录都不能指向CNAME记录。
+
+\vbox{}
+
+\par\noindent\textbf{邮件交换记录}
+
+\par\noindent 邮件交换器（Mail exchanger records，以下简称“MX记录”）记录用于定义应发送域邮件的主机。与CNAME记录一样，MX记录不必指向域内的FQDN，MX记录可以指向任何主机，内部或者域外——只要该主机设置为接收该域的邮件。 MX记录必须指向由A记录表示的FQDN而不是CNAME。
+
+\par\noindent\rule[0.25\baselineskip]{\textwidth}{1pt} %分割线rule中间有文字 ---start---
+
+\begin{adjustwidth}{2em}{2em}
+\qquad 大多数现代邮件传输代理（MTA）都了解CNAME记录并可以将邮件转发给它们，但有些仍然没有。它也违反了RFC协议规定，所以请不要这样做。
+\end{adjustwidth}
+
+\par\noindent\rule[0.25\baselineskip]{\textwidth}{1pt} %分割线rule---end---
+
+\par\setlength\parindent{2em}MX记录看起来像这样：
+
+\par\setlength\parindent{2em}example.com. \qquad 3600 \qquad IN \qquad MX \qquad 10mail.example.com.
+
+\par\setlength\parindent{2em}example.com. \qquad 3600 \qquad IN \qquad MX \qquad 20mail.example.com.
+
+\par\setlength\parindent{2em}有一个字段是MX记录独有的，称为记录权重。该权重用于确定多个MX记录的首选项。若记录的权重越低，则对该记录的偏好越大。在上面的示例中，mail.example.com优先于mail.foo.com。试图将邮件发送到user@example.com的MTA将首先尝试mail.example.com，只有在mail.example.com超时或退回邮件时才尝试mail.foo.com。
+
+\vbox{}
+
+\par\noindent\textbf{名称服务器记录}
+
+\par\noindent 除了注册为主机之外，名称服务器还必须在域文件中定义为名称服务器（NS）记录。
+正如其名，NS记录用于列出域的权威名称服务器。NS记录通常是SOA之后的第一个RRS，其格式如下：
+%------------DNS Security :page27 start-------------------
+\par\setlength\parindent{2em}example.com. \qquad IN \qquad NS \qquad ns1.example.com.
+
+\par\setlength\parindent{2em}example.com. \qquad IN \qquad NS \qquad ns2.foo.com.
+
+\par\setlength\parindent{2em}example.com. \qquad IN \qquad NS \qquad ns2.example.com.
+
+
 
 \end{document}
