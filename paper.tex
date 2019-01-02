@@ -10,21 +10,61 @@
 \usepackage{csquotes}
 \usepackage{textcmds}
 \usepackage{xcolor}
+\usepackage{indentfirst}
+\usepackage{changepage}
 
 
 \begin{document}
+%------------DNS Security :page24 start-------------------
+\par\noindent\textbf{资源记录}
 
-% \title{Paper Title}
-% \author{Firstname Lastname \and Firstname Lastname}
-% \institute{Institute}
+\par\noindent 本章从一般到具体进展，本节是最具体的，它也是DNS的核心。 DNS的主要功能是共享信息，方便和自动解析网站www.example.com或发送邮件至user@example.com。
 
-% \maketitle
+\par\setlength\parindent{2em}资源记录（RESOURCE RECORD，以下简称“RR”）是域文件中的条目，用于提供用户正在查找的信息。DNS内置的所有可用性都只是因为RR 中包含的信息可以从权威服务器传输到递归服务器，然后人们可以愉快地访问网站、共享文件等。
 
-% \section{Introduction}
+\par\setlength\parindent{2em}RR是服务于特定功能的域名的域文件中的条目。有许多不同类型的RR，但实际上通常只有大约10种。 我们已经审查过的常见RR之一是SOA。 SOA的独特之处在于它是唯一不遵循标准格式的常见RR。
 
-% \fontsize[20pt]{中文测试1}
-% {\large          Hello}\\
-% \zihao{15} 中文测试
-\textbf{中文测试}
+\par\setlength\parindent{2em}RR的标准格式由五个字段组成，每个字段包含特定的字段关于RR的信息：
+
+\par\setlength\parindent{2em}Name \qquad TTL \qquad Class \qquad Type \qquad Data
+
+\par\setlength\parindent{2em} 在实际中，格式通常如下所示：
+
+\par\setlength\parindent{2em} mail.example.com. \qquad 3600 \qquad IN \qquad A \qquad 10.10.100.102
+
+%------------DNS Security :page25 start-------------------
+\par\noindent\rule[0.25\baselineskip]{\textwidth}{1pt} %分割线rule
+
+\begin{adjustwidth}{2em}{2em}
+\qquad 这就是尾随点的突出重要性的地方。 如果域之后没有尾随点，则DNS软件通常会将其解释为指示主机名，并且软件将在域上添加。 在上面的示例中，如果mail.example.com之后没有尾随点，则软件会认为这条RR是mail.example.com.example.com。
+\end{adjustwidth}
+
+\par\noindent\rule[0.25\baselineskip]{\textwidth}{1pt} %分割线rule
+
+\par\setlength\parindent{2em} Name字段是主机名还是IP地址取决于这条记录；该字段是代表这个特定RR的对象。 TTL字段仅在当前TTL与特定RR所需的SLA中定义的TTL不同的时候才使用。 如果不指定TTL使用默认域的TTL。 Class字段的值始终为“IN（Internet）”，这是DNS目前唯一支持的类别。 Type字段定义了RR的目的，在上面的例子中，“A”记录是一个地址记录，其他Type字段将在下面讨论。Data字段取决于RR的类型; Data字段的值是DNS分享有关该特定RR的信息。
+
+\vbox{}
+
+\par\noindent\textbf{地址记录}
+
+\par\noindent 最常见的RR类型是地址（Address records，以下简称“A记录”）。 A记录将FQDN映射到IP地址，如上例所示。 每个主机地址在一个域中必须具有A记录（域文件中的主机但不属于域的一部分，不需要该域文件中的A记录）或规范名称记录：
+
+\par\setlength\parindent{2em}mail.example.com. \qquad 3600 \qquad IN \qquad A \qquad 10.10.100.102
+
+\par\setlength\parindent{2em}请记住，TTL字段是可选的，如果RR可以使用区域的默认TTL，则无需将其包含在RR中。最基本的RR必须含A，无疑是最常用的。 即使是简单的区域文件通常也会有5或6个A记录。
+
+\par\setlength\parindent{2em}如果FQDN指向多个IP地址，则名称服务器将以循环方式返回它们。请求A记录的第一台服务器将获得第一条记录，第二台服务器将获得第二条记录，第三台服务器将获得第三条记录，等等。一旦名称服务器返回了所有A记录，它将在开始的地方重新开始。
+
+\par\setlength\parindent{2em}还有专门为IPv6地址设计的A记录。此记录称为AAAA记录，其格式与A记录相同，但其具有IPv6地址：
+
+\par\setlength\parindent{2em}ipv6.example.com. \qquad 3600 \qquad IN \qquad AAAA \qquad 2001:468:504:1:210:5aff:fe1a:11e
+
+\vbox{}
+
+\par\noindent\textbf{典型名称记录}
+
+\par\noindent 规范名称记录（Canonical Name，以下简称“CNAME”）是将一个FQDN映射到另一个FQDN的别名。 它不是直接将FQDN映射到IP地址，而是更容易映射到另一个host主机。如果有许多FQDN指向相同的IP地址，当对主地址进行更改时，其他地址会自动更新，这一点尤其有用。 CNAME看起来与此类似：
+
+%------------DNS Security :page26 start-------------------
 
 \end{document}
