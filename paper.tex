@@ -15,14 +15,18 @@
 
 
 \begin{document}
+
+
+
+
 %------------DNS Security :page24 start-------------------
 \par\noindent\textbf{资源记录}
 
-\par\noindent 本章从一般到具体进展，本节是最具体的，它也是DNS的核心。 DNS 的主要功能是共享信息，方便和自动解析网站www.example.com或发送邮件至user@example.com。
+\par\noindent 本章从一般到具体进行阐述，而本节是最具体的，也是DNS的核心。DNS 的主要功能是共享信息，方便和自动解析网站www.example.com或发送邮件至user@example.com。
 
-\par\setlength\parindent{2em}资源记录（RESOURCE RECORD，以下简称“RR”）是域文件中的条目，用于提供用户正在查找的信息。DNS内置的所有可用性都只是因为RR 中包含的信息可以从权威服务器传输到递归服务器，然后人们可以愉快地访问网站、共享文件等。
+\par\setlength\parindent{2em}资源记录（RESOURCE RECORD，以下简称“RR”）是域文件中的条目，用于提供用户正在查找的信息。DNS内置的所有可用性都只是因为RR中包含的信息可以从权威服务器传送到递归服务器，然后人们可以愉快地访问网站、共享文件等。
 
-\par\setlength\parindent{2em}RR是服务于特定功能的域名的域文件中的条目。有许多不同类型的RR，但实际上通常只有大约10种。 我们已经审查过的常见RR之一是SOA。 SOA 的独特之处在于它是唯一不遵循标准格式的常见RR。
+\par\setlength\parindent{2em}RR是服务于特定功能的域名的域文件中的条目。有许多不同类型的RR，但实际上通常只有大约10种。我们已经查阅过的常见RR之一是SOA。SOA的独特之处在于它是常见的唯一不遵循标准格式的RR。
 
 \par\setlength\parindent{2em}RR的标准格式由五个字段组成，每个字段包含特定的字段关于RR的信息：
 
@@ -32,28 +36,30 @@
 
 \par\setlength\parindent{2em} mail.example.com. \qquad 3600 \qquad IN \qquad A \qquad 10.10.100.102
 
+\vbox{}
+
 %------------DNS Security :page25 start-------------------
 \par\noindent\rule[0.25\baselineskip]{\textwidth}{1pt} %分割线rule中间有文字 ---start---
 
 \begin{adjustwidth}{2em}{2em}
-\qquad 这就是尾随点的突出重要性的地方。 如果域之后没有尾随点，则DNS软件通常会将其解释为指示主机名，并且软件将在域上添加。 在上面的示例中，如果mail.example.com之后没有尾随点，则软件会认为这条RR是mail.example.com.example.com。
+\qquad 这就是尾随点的凸显重要性的地方。如果域名之后没有尾随点，则DNS解析软件通常会将其解析为主机名，并且软件将在域上添加。在上面的示例中，如果mail.example.com 之后没有尾随点，则DNS解析软件会认为这条RR是mail.example.com.example.com。
 \end{adjustwidth}
 
 \par\noindent\rule[0.25\baselineskip]{\textwidth}{1pt} %分割线rule---end---
 
-\par\setlength\parindent{2em} Name字段是主机名还是IP地址取决于这条记录；该字段是代表这个特定RR的对象。 TTL字段仅在当前TTL与特定RR所需的SLA 中定义的TTL不同的时候才使用。 如果不指定TTL 使用默认域的TTL。 Class字段的值始终为“IN（Internet）”，这是DNS目前唯一支持的类别。 Type字段定义了RR的目的，在上面的例子中，“A”记录是一个地址记录，其他Type字段将在下面讨论。Data字段取决于RR的类型; Data字段的值是DNS分享有关该特定RR的信息。
+\par\setlength\parindent{2em} Name字段是主机名还是IP地址取决于RR这条记录；该字段代表着一个特定RR的对象。TTL字段仅在当前TTL与特定RR所需的SLA 中定义的TTL不同的时候才使用。如果不指定TTL就使用默认域的TTL。Class字段的值始终为“IN（Internet）”，这是DNS目前唯一支持的类别。Type字段定义了RR的目的，在上面的例子中，“A”记录是一个地址记录，其他Type字段将在下面讨论。Data字段取决于RR的类型;Data字段的值是DNS表示有关该特定RR的信息。
 
 \vbox{}
 
 \par\noindent\textbf{地址记录}
 
-\par\noindent 最常见的RR类型是地址（Address records，以下简称“A记录”）。 A记录将FQDN映射到IP地址，如上例所示。 每个主机地址在一个域中必须具有A记录（域文件中的主机但不属于域的一部分，不需要该域文件中的A记录）或规范名称记录：
+\par\noindent 最常见的RR类型是地址（Address records，以下简称“A记录”）。A记录将FQDN映射到IP地址，如上例所示。每个主机地址在一个域中必须具有A记录（其中域文件中的主机名但不属于该域的一部分时，不需要该域文件中的A记录）或规范名称记录：
 
 \par\setlength\parindent{2em}mail.example.com. \qquad 3600 \qquad IN \qquad A \qquad 10.10.100.102
 
-\par\setlength\parindent{2em}请记住，TTL字段是可选的，如果RR可以使用区域的默认TTL，则无需将其包含在RR中。最基本的RR必须含A，无疑是最常用的。 即使是简单的区域文件通常也会有5或6个A记录。
+\par\setlength\parindent{2em}请记住，TTL字段是可选的，如果RR可以使用区域的默认TTL，则无需将其包含在RR中。最基本的RR必须含A，这是最常见的。即使是简单的域文件通常也会有5或6个A记录。
 
-\par\setlength\parindent{2em}如果FQDN指向多个IP地址，则名称服务器将以循环方式返回它们。请求A记录的第一台服务器将获得第一条记录，第二台服务器将获得第二条记录，第三台服务器将获得第三条记录，等等。一旦名称服务器返回了所有A 记录，它将在开始的地方重新开始。
+\par\setlength\parindent{2em}如果FQDN指向多个IP地址，则名称服务器将以循环方式返回它们。请求A 记录的第一台服务器将获得第一条记录，第二台服务器将获得第二条记录，第三台服务器将获得第三条记录，以此类推。一旦名称服务器返回了所有A记录，它将在开始的地方重新开始。
 
 \par\setlength\parindent{2em}还有专门为IPv6地址设计的A记录。此记录称为AAAA记录，其格式与A记录相同，但其具有IPv6地址：
 
@@ -63,24 +69,24 @@
 
 \par\noindent\textbf{典型名称记录}
 
-\par\noindent 规范名称记录（Canonical Name，以下简称“CNAME”）是将一个FQDN 映射到另一个FQDN的别名。 它不是直接将FQDN映射到IP地址，而是更容易映射到另一个host 主机。如果有许多FQDN指向相同的IP地址，当对主地址进行更改时，其他地址会自动更新，这一点尤其有用。 CNAME看起来与此类似：
+\par\noindent 规范名称记录（Canonical Name，以下简称“CNAME”）是将一个FQDN映射到另一个FQDN的别名。它不是直接将FQDN映射到IP地址，而是更容易映射到另一个host主机。如果有许多FQDN指向相同的IP 地址，当对主地址进行更改时，其他地址会自动更新，这一点尤其有用。CNAME看起来与此类似：
 
 %------------DNS Security :page26 start-------------------
 \par\setlength\parindent{2em}www.example.com. \qquad 3600 \qquad IN \qquad CNAME \qquad mail.example.com.
 
 \par\setlength\parindent{2em}mail.example.com. \qquad 3600 \qquad IN \qquad A \qquad 10.10.100.102
 
-\par\setlength\parindent{2em}为了使CNAME工作，它必须指向具有有效A记录的FQDN。 CNAME不必指向同一域文件中的FQDN；它可以指向其他FQDN：
+\par\setlength\parindent{2em}为了使CNAME工作，它必须指向具有有效A记录的FQDN。CNAME不必指向同一域文件中的FQDN；它可以指向其他FQDN：
 
 \par\setlength\parindent{2em}www.example.com \qquad 3600 \qquad IN \qquad CNAME \qquad www.foo.com.
 
-\par\setlength\parindent{2em}同样，www.foo.com必须有一个有效的A记录才能使用这个CNAME。关于CNAME记录的另一个重要的事情是它们不能被其他RR使用。 MX和NS记录都不能指向CNAME记录。
+\par\setlength\parindent{2em}同样，www.foo.com必须有一个有效的A记录才能使用这个CNAME。关于CNAME记录的另一个重要的注意点是它们不能被其他RR使用。MX和NS记录都不能指向CNAME记录。
 
 \vbox{}
 
 \par\noindent\textbf{邮件交换记录}
 
-\par\noindent 邮件交换器（Mail exchanger records，以下简称“MX记录”）记录用于定义应发送域邮件的主机。与CNAME记录一样，MX记录不必指向域内的FQDN，MX记录可以指向任何主机，内部或者域外—— 只要该主机设置为接收该域的邮件。 MX 记录必须指向由A 记录表示的FQDN而不是CNAME。
+\par\noindent 邮件交换器（Mail exchanger records，以下简称“MX记录”）记录用于定义应发送域邮件的主机。与CNAME记录一样，MX记录不必指向域内的FQDN，MX记录可以指向任何主机，域内或者域外，只要该主机设置为接收该域的邮件。MX记录必须指向由A记录表示的FQDN而不是CNAME。
 
 \par\noindent\rule[0.25\baselineskip]{\textwidth}{1pt} %分割线rule中间有文字 ---start---
 
@@ -111,7 +117,7 @@
 
 \par\setlength\parindent{2em}example.com. \qquad IN \qquad NS \qquad ns2.example.com.
 
-与MX和CNAME记录一样，NS记录不必指向主机文件中存在的FQDN，NS记录可以指向任何具有有关域认证信息的主机。NS记录必须是一个FQDN，不能是一个IP地址；它还必须指向一个FQDN，该FQDN是A记录，而不是CNAME记录。
+与MX和CNAME记录一样，NS记录不必指向主机文件中存在的FQDN，NS记录可以指向任何具有有关域认证信息的主机。NS记录必须是一个FQDN，不能是一个IP地址；它还必须指向一个FQDN，该FQDN是A记录，而不是CNAME 记录。
 
 NS记录还有另一个用途。对于能够使用的DNS守护进程，主名称服务器会将对域文件的更新推送到（该区文件中列出的）名称服务器。当然，这在很大程度上依赖于现有的DNS基础设施。
 
@@ -121,13 +127,13 @@ NS记录还有另一个用途。对于能够使用的DNS守护进程，主名称
 
 \par\noindent 指针（ptr）记录与记录相反。ptr记录将IP地址映射到域名。ptr 记录存储在称为in-addr.arpa域文件。IP地址块的数据信息通过区域网络协调中心（NCC）分发。
 
-\par\setlength\parindent{2em}目前有五个网络中心：美国互联网号码注册处负责处理北美的信息；拉丁美洲和加勒比的互联网地址注册处处理拉丁美洲和Carribean的IP地址；Re'Seaux IP Europe'ens管理欧洲的IP地址；非洲网络信息中心是非洲大陆的互联网注册处；以及亚太网络信息中心，负责亚太地区的IP地址。
+\par\setlength\parindent{2em}目前有五个网络中心：美国互联网号码注册处负责处理北美的信息；拉丁美洲和加勒比的互联网地址注册处处理拉丁美洲和Carribean的IP地址；Re'Seaux IP Europe'ens管理欧洲的IP 地址；非洲网络信息中心是非洲大陆的互联网注册处；以及亚太网络信息中心，负责亚太地区的IP地址。
 
-\par\setlength\parindent{2em}有关IP地址分配的信息处理方式与域名信息几乎相同，并且DNS结构相同。不同的是，管理员使用的是IP地址块，而不是域名，并且区域文件在这方面是不同的。in-addr.arpa区域文件是使用IP块命名的，后面跟反向按地址ARPA。 如果组织被分配IP块10.100.50.0/24（C类网络块），包含该网络块信息的区域文件将被命名为：
+\par\setlength\parindent{2em}有关IP地址分配的信息处理方式与域名信息几乎相同，并且DNS结构相同。不同的是，管理员使用的是IP地址块，而不是域名，并且区域文件在这方面是不同的。in-addr.arpa 区域文件是使用IP块命名的，后面跟反向按地址ARPA。 如果组织被分配IP块10.100.50.0/24（C类网络块），包含该网络块信息的区域文件将被命名为：
 
 \par\setlength\parindent{2em}50.100.10.IN-ADDR.ARPA
 
-\par\setlength\parindent{2em}区域文件通常只包含三种类型的资源记录：SOA、NS和PTR记录，其中PTR记录是主要的关注点。PTR记录采用与转发域文件相同的常规格式，但主机名在数据字段中：
+\par\setlength\parindent{2em}区域文件通常只包含三种类型的资源记录：SOA、NS和PTR 记录，其中PTR 记录是主要的关注点。PTR记录采用与转发域文件相同的常规格式，但主机名在数据字段中：
 
 \par\setlength\parindent{2em}102 \qquad 3600 \qquad IN \qquad PTR \qquad mail.example.com.
 
@@ -191,7 +197,7 @@ NS记录还有另一个用途。对于能够使用的DNS守护进程，主名称
 \par\noindent\textbf{注意}
 \begin{enumerate}
 \item 有些人会告诉你注册的第一个域名是Symbolics.com或者Think.com，你可以告诉他们这些域名是分别注册于1985年的3月和1985年5月，至少在NORDU.NET注册后的3 个月。
-\item 当然，这是假设与主机关联的域名也注册了。    
+\item 当然，这是假设与主机关联的域名也注册了。
 \end{enumerate}
 
 \end{document}
